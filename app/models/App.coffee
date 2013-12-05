@@ -18,23 +18,17 @@ class window.App extends Backbone.Model
 
   dealerHit: ->
     @get('dealerHand').at(0).flip()
-    score = if @get('playerHand').scores()[1] <= 21
-      @get('playerHand').scores()[1]
-    else
-      @get('playerHand').scores()[0]
+    playerScore = @aceShuffle()[0]
+    dealerScore = @aceShuffle()[1]
 
-    while @get('dealerHand').scores()[0] < 17 and @get('dealerHand').scores()[0] < score or @get('dealerHand').scores()[1] < 17 and @get('dealerHand').scores()[1] < score
+    while dealerScore < playerScore and dealerScore < 17
       @get('dealerHand').hit()
+      playerScore = @aceShuffle()[0]
+      dealerScore = @aceShuffle()[1]
 
   gameEnd: ->
-    playerScore = if @get('playerHand').scores()[1] and @get('playerHand').scores()[1] <= 21
-      @get('playerHand').scores()[1]
-    else
-      @get('playerHand').scores()[0]
-    dealerScore = if @get('dealerHand').scores()[1] and @get('dealerHand').scores()[1] <= 21
-      @get('dealerHand').scores()[1]
-    else
-      @get('dealerHand').scores()[0]
+    playerScore = @aceShuffle()[0]
+    dealerScore = @aceShuffle()[1]
 
     if(dealerScore <= 21)
       if(playerScore <= dealerScore)
@@ -45,4 +39,16 @@ class window.App extends Backbone.Model
   newGame: ->
     @initialize()
     @trigger 'reset'
+
+  aceShuffle: ->
+    playerScore = if @get('playerHand').scores()[1] and @get('playerHand').scores()[1] <= 21
+      @get('playerHand').scores()[1]
+    else
+      @get('playerHand').scores()[0]
+    dealerScore = if @get('dealerHand').scores()[1] and @get('dealerHand').scores()[1] <= 21
+      @get('dealerHand').scores()[1]
+    else
+      @get('dealerHand').scores()[0]
+    [playerScore, dealerScore]
+
     
