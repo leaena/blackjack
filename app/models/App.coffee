@@ -18,7 +18,12 @@ class window.App extends Backbone.Model
 
   dealerHit: ->
     @get('dealerHand').at(0).flip()
-    while @get('dealerHand').scores()[0] < 17 or @get('dealerHand').scores()[1] < 17
+    score = if @get('playerHand').scores()[1] <= 21
+      @get('playerHand').scores()[1]
+    else
+      @get('playerHand').scores()[0]
+
+    while @get('dealerHand').scores()[0] < 17 and @get('dealerHand').scores()[0] < score or @get('dealerHand').scores()[1] < 17 and @get('dealerHand').scores()[1] < score
       @get('dealerHand').hit()
 
   gameEnd: ->
