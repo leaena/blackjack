@@ -9,13 +9,14 @@ class window.App extends Backbone.Model
       @dealerHit()
       @gameEnd()
     )
-    @get('dealerHand').on('bust', =>
+
+    @get('dealerHand').on('bust', ->
       @trigger('dealerBust')
     )
 
   dealerHit: ->
     @get('dealerHand').at(0).flip()
-    while @get('dealerHand').scores()[0] < 17 or @get('dealerHand').scores()[1] < 17
+    while @get('dealerHand').scores()[1] < 17 or @get('dealerHand').scores()[0] < 17
       @get('dealerHand').hit()
 
   gameEnd: ->
@@ -32,4 +33,18 @@ class window.App extends Backbone.Model
         @trigger('dealerWin')
       else
         @trigger('playerWin')
+
+  newGame: ->   
+    @set 'deck', deck = new Deck()
+    @set 'playerHand', deck.dealPlayer()
+    @set 'dealerHand', deck.dealDealer()
+    @get('playerHand').on("stand", => 
+      @dealerHit()
+      @gameEnd()
+    )
+    @get('dealerHand').on('bust', ->
+      @trigger('dealerBust')
+    )
+    @trigger('newGame')
+
     

@@ -9,11 +9,12 @@ class window.AppView extends Backbone.View
   events:
     "click .hit-button": -> @model.get('playerHand').hit()
     "click .stand-button": -> @model.get('playerHand').stand()
+    "click .reset": -> @model.newGame()
 
   initialize: -> 
     @render()
-    @model.get('playerHand').on("stand", => 
-      # @undelegateEvents()
+    @model.on('newGame', =>
+      @render()
     )
     @model.get('playerHand').on("bust", => 
       # @undelegateEvents()
@@ -31,14 +32,9 @@ class window.AppView extends Backbone.View
 
   gameEnd: (message)->
     html = '<h1>' + message + '</h1>'
-    $('button').toggle()
-    $('body').prepend html
-
-    # setTimeout =>
-    #   @model.set 'playerHand', @model.get('deck').dealPlayer()
-    #   @model.set 'dealerHand', @model.get('deck').dealDealer()
-    #   @render()
-    # , 500
+    $('button').hide()
+    @$el.append html
+    @$el.append('<div><button class="reset">New Game?</button></div>')
 
 
   render: ->
