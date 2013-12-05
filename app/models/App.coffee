@@ -10,9 +10,11 @@ class window.App extends Backbone.Model
     )
     @get('playerHand').on('bust', =>
       @trigger 'playerBust'
+      @scores 'dealer'
     )
     @get('dealerHand').on('bust', =>
       @trigger 'dealerBust'
+      @scores 'player'
     )
 
   dealerGame: ->
@@ -40,12 +42,20 @@ class window.App extends Backbone.Model
     if(dealerScore <= 21)
       if(playerScore <= dealerScore)
         @trigger('dealerWin')
+        @scores 'dealer'
       else
         @trigger('playerWin')
+        @scores 'player'
 
   newGame: ->
     @initialize()
     @trigger 'reset'
+
+  scores: (winner)->
+    if window.localStorage[winner + 'Win']
+      window.localStorage[winner + 'Win'] = parseInt(window.localStorage[winner + 'Win']) + 1
+    else 
+      window.localStorage[winner + 'Win'] = 1
 
   aceShuffle: ->
     playerScore = if @get('playerHand').scores()[1] and @get('playerHand').scores()[1] <= 21

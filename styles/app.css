@@ -1,9 +1,13 @@
 body {
   background: seagreen;
+  font-family: Arial, sans-serif;
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
 }
 
 body > div{
-  width: 50%;
+  width: 75%;
   margin: 0 auto;
 }
 
@@ -34,4 +38,8 @@ button {
 
 h1, h2 {
   margin-left: 50px;
+}
+
+.scores {
+  text-align: center;
 }
