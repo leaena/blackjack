@@ -6,7 +6,7 @@ class window.App extends Backbone.Model
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
     @get('playerHand').on("stand", => 
-      @dealerHit()
+      @dealerGame()
     )
     @get('playerHand').on('bust', =>
       @trigger 'playerBust'
@@ -15,14 +15,14 @@ class window.App extends Backbone.Model
       @trigger 'dealerBust'
     )
 
-  dealerHit: ->
+  dealerGame: ->
     @get('dealerHand').at(0).flip()
     playerScore = @aceShuffle()[0]
     dealerScore = @aceShuffle()[1]
     interval = null
     if dealerScore < playerScore and dealerScore < 17
       interval = setInterval =>
-        if dealerScore >= 17
+        if dealerScore >= 17 or dealerScore >= playerScore
           @gameEnd()
           clearInterval(interval);
         else
