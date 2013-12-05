@@ -1,9 +1,10 @@
 class window.AppView extends Backbone.View
   el: '<div>'
   template: _.template '
-    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
+    <br />
+    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
   '
 
   events:
@@ -16,12 +17,10 @@ class window.AppView extends Backbone.View
     @model.on('reset', =>
       @render()
     )
-    @model.get('playerHand').on("stand", => 
-    )
-    @model.get('playerHand').on("bust", => 
+    @model.on("playerBust", => 
       @gameEnd 'You bust! - Dealer wins!'
     )
-    @model.get('dealerHand').on("bust", =>
+    @model.on("dealerBust", =>
       @gameEnd 'Dealer busts! - You win!'
     )
     @model.on('playerWin', =>

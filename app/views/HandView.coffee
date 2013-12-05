@@ -19,5 +19,5 @@ class window.HandView extends Backbone.View
     else
       @collection.scores()[0]
     if score > 21
-      @collection.trigger('bust', @)
+      @collection.trigger 'bust', @
     @$('.score').text score
