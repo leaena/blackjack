@@ -1,9 +1,18 @@
+body {
+  background: seagreen;
+}
+
+body > div{
+  width: 50%;
+  margin: 0 auto;
+}
+
 .card {
   float: left;
-  border: solid 1px black;
-  width: 120px;
+  width: 130px;
+  border: 1px solid gold;
   border-radius: 5px;
-  height: 176px;
+  height: 175px;
   margin-right: 20px;
 }
 
@@ -13,4 +22,16 @@
 
 .hand {
   overflow: auto;
+}
+
+button {
+  border: 0px;
+  background-color: gold;
+  color: white;
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+h1, h2 {
+  margin-left: 50px;
 }
