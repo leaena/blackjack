@@ -13,11 +13,12 @@ class window.AppView extends Backbone.View
 
   initialize: -> 
     @render()
-    @model.on('newGame', =>
+    @model.on('reset', =>
       @render()
     )
+    @model.get('playerHand').on("stand", => 
+    )
     @model.get('playerHand').on("bust", => 
-      # @undelegateEvents()
       @gameEnd 'You bust! - Dealer wins!'
     )
     @model.get('dealerHand').on("bust", =>
@@ -34,7 +35,7 @@ class window.AppView extends Backbone.View
     html = '<h1>' + message + '</h1>'
     $('button').hide()
     @$el.append html
-    @$el.append('<div><button class="reset">New Game?</button></div>')
+    @$el.append '<div><button class="reset">New Game?</button></div>'
 
 
   render: ->

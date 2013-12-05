@@ -8,8 +8,9 @@ class window.Hand extends Backbone.Collection
   stand: -> @trigger 'stand'
 
   scores: ->
+    console.log('checked')
     # The scores are an array of potential scores.
-    # Usually, that array contains one element. That is the only score.
+    # Usually, that array contains one element. That is the only scor.
     # when there is an ace, it offers you two scores - the original score, and score + 10.
     hasAce = @reduce (memo, card) ->
       memo or card.get('value') is 1
