@@ -1,7 +1,7 @@
 #todo: refactor to have a game beneath the outer blackjack model
 class window.App extends Backbone.Model
 
-  initialize: ->
+  startGame: ->
     @set 'deck', deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
@@ -16,11 +16,19 @@ class window.App extends Backbone.Model
       @trigger 'dealerBust'
       @scores 'player'
     )
+    @get('playerHand').checkScore()
 
   dealerGame: ->
     @get('dealerHand').at(0).flip()
-    playerScore = @aceShuffle()[0]
-    dealerScore = @aceShuffle()[1]
+    if @aceShuffle()[0] != 21
+      playerScore = @aceShuffle()[0]
+      dealerScore = @aceShuffle()[1]
+      @dealerHit playerScore, dealerScore
+    else
+      @trigger 'blackjack'
+      @scores 'player'
+
+  dealerHit: (playerScore, dealerScore)->
     interval = null
     if dealerScore < playerScore and dealerScore < 17
       interval = setInterval =>
@@ -40,16 +48,14 @@ class window.App extends Backbone.Model
     dealerScore = @aceShuffle()[1]
 
     if(dealerScore <= 21)
-      if(playerScore <= dealerScore)
-        @trigger('dealerWin')
+      if playerScore < dealerScore 
+        @trigger 'dealerWin'
         @scores 'dealer'
-      else
-        @trigger('playerWin')
+      else if playerScore > dealerScore
+        @trigger 'playerWin' 
         @scores 'player'
-
-  newGame: ->
-    @initialize()
-    @trigger 'reset'
+      else
+        @trigger 'push'
 
   scores: (winner)->
     if window.localStorage[winner + 'Win']

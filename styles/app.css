@@ -34,6 +34,7 @@ button {
   color: white;
   font-size: 20px;
   margin-left: 20px;
+  margin-top: 10px;
 }
 
 h1, h2 {
@@ -43,3 +44,6 @@ h1, h2 {
 .scores {
   text-align: center;
 }
+
+/*new logic call a push if a tie?
+player auto wins on 21*/
